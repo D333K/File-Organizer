@@ -1,8 +1,18 @@
 import os
+import pyfiglet
+import termcolor
 from operations import *
 
 print("Enter The Full Directory Name For Start Organizer:-")
-dir_name = input("Directory name: ")
+dir_name = input("Directory name: ").strip()
+
+if not dir_name:
+    print("Please Enter The Full Path To Start Work!")
+    exit()
+
+if not os.path.exists(dir_name):
+    print("Please Enter Correct Path To Start Work!")
+    exit()
 
 # duplicate_counter = 0
 move_counter = 0 # How many files has moved successfully.
@@ -30,9 +40,13 @@ for root, dirs, files in os.walk(dir_name):
         move_counter += 1
 
         print("Please Wait...")
-        os.system("cls" if os.name == "nt" else "clear")
+        print('-' *20)
+        print(f"Moved {name} => {where_put_it(file_path)}")
+        print('-' *20)
 
     break
 
 print("Organized Successfully")
-print(f"Moved {move_counter}")
+print(f"{move_counter} Files Has Moved")
+print()
+print(termcolor.colored(pyfiglet.figlet_format("Dark Knight"), color="black"))
