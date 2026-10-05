@@ -36,3 +36,6 @@ def where_put_it(file_name) -> str:
 
     return "Others"
 
+file, exten = os.path.splitext("School.txt")
+
+print(file)

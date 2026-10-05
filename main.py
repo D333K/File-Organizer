@@ -23,25 +23,29 @@ for root, dirs, files in os.walk(dir_name):
 
         file_path = os.path.join(root, name)
 
-        category_folder = os.path.join(root, where_put_it(file_path))
+        type = where_put_it(name)
 
-        category_folder_path = os.path.join(category_folder, name)
+        folder_path = os.path.join(root, type)
 
-        os.makedirs(category_folder, exist_ok=True)
+        os.makedirs(folder_path, exist_ok=True)
 
-        if os.path.exists(category_folder_path): # Change file name if it's already exists.
-            # duplicate_counter = 1
-            
-            file_name, file_exten = os.path.splitext(category_folder_path)
-            
-            category_folder_path = f"{file_name}_1{file_exten}"
+        file_move_path = os.path.join(folder_path, name)
 
-        os.rename(file_path, category_folder_path)
+        if os.path.exists(file_move_path):
+            counter = 1
+            old_name, exten = os.path.splitext(name)
+
+            while os.path.exists(file_move_path):
+                new_name = f"{old_name}_{counter}{exten}"
+                file_move_path = os.path.join(folder_path, new_name)
+                counter += 1
+
+        os.rename(file_path, file_move_path)
         move_counter += 1
 
         print("Please Wait...")
         print('-' *20)
-        print(f"Moved {name} => {where_put_it(file_path)}")
+        print(f"Moved {name} => {type}")
         print('-' *20)
 
     break
@@ -49,4 +53,5 @@ for root, dirs, files in os.walk(dir_name):
 print("Organized Successfully")
 print(f"{move_counter} Files Has Moved")
 print()
+input("Press To Countinue'")
 print(termcolor.colored(pyfiglet.figlet_format("Dark Knight"), color="black"))
